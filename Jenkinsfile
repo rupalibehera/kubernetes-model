@@ -34,12 +34,6 @@ goTemplate{
         sh 'make gobuild'
       }
 
-      if (env.BRANCH_NAME.startsWith('PR-')){
-        echo 'Running CI pipeline'
-        container(name: 'maven') {
-          sh 'mvn clean install'
-        }
-      } else if (env.BRANCH_NAME.equals('master')){
         echo 'Running CD pipeline'
         sh "git remote set-url origin git@github.com:fabric8io/kubernetes-model.git"
 
@@ -54,7 +48,7 @@ goTemplate{
         stage 'Update downstream dependencies'
         pipeline.updateDownstreamDependencies(stagedProject)
       }
-    }
+    
     }
   }
 }
